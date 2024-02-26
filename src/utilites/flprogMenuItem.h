@@ -19,6 +19,7 @@ public:
     virtual String valueString() { return ""; };
     void setAditionalString(String value, uint8_t index);
     String aditionalString(uint8_t index);
+    virtual String convertString() { return FLPROG_MENU_DEC_CONVERT_TYPE; };
 
     virtual bool booleanValue() { return false; };
     virtual uint8_t byteleanValue() { return 0; };
@@ -28,47 +29,8 @@ public:
     virtual float floatValue() { return 0; };
     virtual char charValue() { return (char)0; };
 
-    void setValue(bool value);
-    void setValue(uint8_t value);
-    void setValue(int16_t value);
-    void setValue(int32_t value);
-    void setValue(uint32_t value);
-    void setValue(float value);
-    void setValue(char value);
     void setValue(String value);
 
-    void setMaxValue(uint8_t value);
-    void setMaxValue(int16_t value);
-    void setMaxValue(int32_t value);
-    void setMaxValue(uint32_t value);
-    void setMaxValue(float value);
-
-    void setMinValue(uint8_t value);
-    void setMinValue(int16_t value);
-    void setMinValue(int32_t value);
-    void setMinValue(uint32_t value);
-    void setMinValue(float value);
-
-    virtual void setStep(float value) { (void)value; };
-
-    virtual bool isBoolean() { return false; };
-    virtual bool isByte() { return false; };
-    virtual bool isInteger() { return false; };
-    virtual bool isLong() { return false; };
-    virtual bool isUnsignedLong() { return false; };
-    virtual bool isFloat() { return false; };
-    virtual bool isChar() { return false; };
-    virtual bool isGroup() { return false; };
-
-    virtual void valueUp(){};
-    virtual void valueDown(){};
-
-    virtual FLProgAbstractMenuItem *getCurrentMenuItemParent(FLProgAbstractMenuItem *current);
-    virtual FLProgAbstractMenuItem *menuItemUp(FLProgAbstractMenuItem *current, bool isRingControl);
-    virtual FLProgAbstractMenuItem *menuItemDown(FLProgAbstractMenuItem *current, bool isRingControl);
-    virtual FLProgAbstractMenuItem *firstItem() { return 0; };
-
-protected:
     virtual void setBooleanValue(bool value) { (void)value; };
     virtual void setByteValue(uint8_t value) { (void)value; };
     virtual void setIntegerValue(int16_t value) { (void)value; };
@@ -89,6 +51,28 @@ protected:
     virtual void setUnsignedLongMinValue(uint32_t value) { (void)value; };
     virtual void setFloatMinValue(float value) { (void)value; };
 
+    virtual void setStep(float value) { (void)value; };
+
+    virtual bool isBoolean() { return false; };
+    virtual bool isByte() { return false; };
+    virtual bool isInteger() { return false; };
+    virtual bool isLong() { return false; };
+    virtual bool isUnsignedLong() { return false; };
+    virtual bool isFloat() { return false; };
+    virtual bool isChar() { return false; };
+    virtual bool isGroup() { return false; };
+
+    virtual void valueUp(){};
+    virtual void valueDown(){};
+    virtual void pressSymbolButton(char value) { (void)value; };
+    virtual void pressBacspaceButton(){};
+
+    virtual FLProgAbstractMenuItem *getCurrentMenuItemParent(FLProgAbstractMenuItem *current);
+    virtual FLProgAbstractMenuItem *menuItemUp(FLProgAbstractMenuItem *current, bool isRingControl);
+    virtual FLProgAbstractMenuItem *menuItemDown(FLProgAbstractMenuItem *current, bool isRingControl);
+    virtual FLProgAbstractMenuItem *firstItem() { return 0; };
+
+protected:
     void initItem(String name, uint8_t aditionalsStringsCount);
     String _name;
     uint8_t _additionalsStringsCount = 0;
@@ -129,8 +113,11 @@ public:
     virtual void setStep(float value) { _step = value; };
 
     virtual String valueString();
+    virtual String convertString() { return _convertText; };
 
 protected:
+    void privatePressSymbolButton(char value);
+    void privatePressBacspaceButton();
     float _step = 1;
     String _convertText = FLPROG_MENU_DEC_CONVERT_TYPE;
 };
@@ -150,9 +137,10 @@ public:
 
     virtual void valueUp();
     virtual void valueDown();
+    virtual void setBooleanValue(bool value) { _value = value; };
+    virtual void pressSymbolButton(char value);
 
 protected:
-    virtual void setBooleanValue(bool value) { _value = value; };
     String _textForFalse;
     bool _value = false;
 };
@@ -167,12 +155,14 @@ public:
 
     virtual void valueUp();
     virtual void valueDown();
-
-protected:
     virtual void setByteValue(uint8_t value) { _value = value; };
     virtual void setByteMaxValue(uint8_t value);
     virtual void setByteMinValue(uint8_t value);
 
+    virtual void pressSymbolButton(char value);
+    virtual void pressBacspaceButton();
+
+protected:
     uint8_t _value = 0;
     uint8_t _maxValue;
     uint8_t _minValue;
@@ -191,10 +181,14 @@ public:
     virtual void valueUp();
     virtual void valueDown();
 
-protected:
     virtual void setIntegerValue(int16_t value) { _value = value; };
     virtual void setIntegeMaxValue(int16_t value);
     virtual void setIntegeMinValue(int16_t value);
+
+    virtual void pressSymbolButton(char value);
+    virtual void pressBacspaceButton();
+
+protected:
     int16_t _value = 0;
     int16_t _maxValue;
     int16_t _minValue;
@@ -213,10 +207,11 @@ public:
     virtual void valueUp();
     virtual void valueDown();
 
-protected:
     virtual void setLongValue(int32_t value) { _value = value; };
     virtual void setLongMaxValue(int32_t value);
     virtual void setLongMinValue(int32_t value);
+
+protected:
     int32_t _value = 0;
     int32_t _maxValue;
     int32_t _minValue;
@@ -235,10 +230,11 @@ public:
     virtual void valueUp();
     virtual void valueDown();
 
-protected:
     virtual void setUnsignedLongValue(uint32_t value) { _value = value; };
     virtual void setUnsignedLongMaxValue(uint32_t value);
     virtual void setUnsignedLongMinValue(uint32_t value);
+
+protected:
     uint32_t _value = 0;
     uint32_t _maxValue;
     uint32_t _minValue;
@@ -260,10 +256,11 @@ public:
     virtual void valueUp();
     virtual void valueDown();
 
-protected:
     virtual void setFloatValue(float value) { _value = value; };
     virtual void setFloatMaxValue(float value);
     virtual void setFloatMinValue(float value);
+
+protected:
     float _value = 0;
     float _maxValue;
     float _minValue;

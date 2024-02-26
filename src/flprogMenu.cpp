@@ -1,9 +1,213 @@
 #include "flprogMenu.h"
 
-FLProgMenu::FLProgMenu(int16_t itemsCounts)
+//--------------------------FLProgSingleImpulseValueController-----------------------------------
+
+bool FLProgSingleImpulseValueController::valueUpButtonStatus(bool status)
+{
+    if (status)
+    {
+        if (!_oldValueUpStatus)
+        {
+            _oldValueUpStatus = true;
+            return true;
+        }
+        return false;
+    }
+    _oldValueUpStatus = false;
+    return false;
+}
+bool FLProgSingleImpulseValueController::valueDownButtonStatus(bool status)
+{
+    if (status)
+    {
+        if (!_oldValueDownStatus)
+        {
+            _oldValueDownStatus = true;
+            return true;
+        }
+        return false;
+    }
+    _oldValueDownStatus = false;
+    return false;
+}
+
+//--------------------------FLProgAccelerationValueController-----------------------------------
+
+bool FLProgAccelerationValueController::valueUpButtonStatus(bool status)
+{
+    if (_oldValueDownStatus)
+    {
+        return false;
+    }
+    if (status)
+    {
+        if (!_oldValueUpStatus)
+        {
+            _oldValueUpStatus = true;
+            startPressTime = millis();
+            return true;
+        }
+        return checkStatus();
+    }
+    _oldValueUpStatus = false;
+    isCanEvents = false;
+    return false;
+}
+bool FLProgAccelerationValueController::valueDownButtonStatus(bool status)
+{
+    if (_oldValueUpStatus)
+    {
+        return false;
+    }
+    if (status)
+    {
+        if (!_oldValueDownStatus)
+        {
+            _oldValueDownStatus = true;
+            startPressTime = millis();
+            return true;
+        }
+        return checkStatus();
+    }
+    _oldValueDownStatus = false;
+    isCanEvents = false;
+    return false;
+}
+
+bool FLProgAccelerationValueController::checkStatus()
+{
+    if (isCanEvents)
+    {
+        if (flprog::isTimer(lastEventTime, updatePeriod))
+        {
+            lastEventTime = millis();
+            return true;
+        }
+        return false;
+    }
+    if (flprog::isTimer(startPressTime, startAccelerationTime))
+    {
+        isCanEvents = true;
+        lastEventTime = millis();
+        return true;
+    }
+    return false;
+}
+
+void FLProgAccelerationValueController::reset()
+{
+    _oldValueUpStatus = false;
+    _oldValueDownStatus = false;
+    isCanEvents = false;
+}
+
+//--------------------------FLProgDoubleAccelerationValueController-----------------------------------
+
+bool FLProgDoubleAccelerationValueController::valueUpButtonStatus(bool status)
+{
+    if (_oldValueDownStatus)
+    {
+        return false;
+    }
+    if (status)
+    {
+        if (!_oldValueUpStatus)
+        {
+            _oldValueUpStatus = true;
+            startPressTime = millis();
+            return true;
+        }
+        return checkStatus();
+    }
+    _oldValueUpStatus = false;
+    isCanEvents = false;
+    return false;
+}
+bool FLProgDoubleAccelerationValueController::valueDownButtonStatus(bool status)
+{
+    if (_oldValueUpStatus)
+    {
+        return false;
+    }
+    if (status)
+    {
+        if (!_oldValueDownStatus)
+        {
+            _oldValueDownStatus = true;
+            startPressTime = millis();
+            return true;
+        }
+        return checkStatus();
+    }
+    _oldValueDownStatus = false;
+    isCanEvents = false;
+    isCanDoubleEvents = false;
+    return false;
+}
+
+bool FLProgDoubleAccelerationValueController::checkStatus()
+{
+    if (isCanDoubleEvents)
+    {
+        if (flprog::isTimer(lastEventTime, doubleUpdatePeriod))
+        {
+            lastEventTime = millis();
+            return true;
+        }
+        return false;
+    }
+
+    if (isCanEvents)
+    {
+        if (flprog::isTimer(startPressTime, doubleStartAccelerationTime))
+        {
+            isCanDoubleEvents = true;
+        }
+        if (flprog::isTimer(lastEventTime, updatePeriod))
+        {
+            lastEventTime = millis();
+            return true;
+        }
+        return false;
+    }
+    if (flprog::isTimer(startPressTime, startAccelerationTime))
+    {
+        isCanEvents = true;
+        startPressTime = millis();
+        lastEventTime = millis();
+        return true;
+    }
+    return false;
+}
+
+void FLProgDoubleAccelerationValueController::reset()
+{
+    _oldValueUpStatus = false;
+    _oldValueDownStatus = false;
+    isCanEvents = false;
+    isCanDoubleEvents = false;
+}
+
+//--------------------------FLProgMenu-----------------------------------
+
+FLProgMenu::FLProgMenu(String name, int16_t itemsCounts, uint8_t valueControllerType)
 {
     _items = new FLProgAbstractMenuItem *[itemsCounts];
     _itemsCounts = itemsCounts;
+    _name = name;
+    if (valueControllerType == FLPROG_MENU_SINGLE_IMPULSE_VALUE_CONTROLLER)
+    {
+        _valueController = new FLProgSingleImpulseValueController;
+    }
+    if (valueControllerType == FLPROG_MENU_ACCELERATION_VALUE_CONTROLLER)
+    {
+        _valueController = new FLProgAccelerationValueController;
+    }
+
+    if (valueControllerType == FLPROG_MENU_DOUBLE_ACCELERATION_VALUE_CONTROLLER)
+    {
+        _valueController = new FLProgDoubleAccelerationValueController;
+    }
 }
 
 void FLProgMenu::setItem(int16_t index, FLProgAbstractMenuItem *item)
@@ -174,104 +378,6 @@ void FLProgMenu::menuValueDown()
     current->valueDown();
 }
 
-void FLProgMenu::setValue(bool value)
-{
-    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
-    if (current == 0)
-    {
-        return;
-    }
-    if (current->isGroup())
-    {
-        return;
-    }
-    current->setValue(value);
-}
-
-void FLProgMenu::setValue(uint8_t value)
-{
-    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
-    if (current == 0)
-    {
-        return;
-    }
-    if (current->isGroup())
-    {
-        return;
-    }
-    current->setValue(value);
-}
-
-void FLProgMenu::setValue(int16_t value)
-{
-    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
-    if (current == 0)
-    {
-        return;
-    }
-    if (current->isGroup())
-    {
-        return;
-    }
-    current->setValue(value);
-}
-
-void FLProgMenu::setValue(int32_t value)
-{
-    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
-    if (current == 0)
-    {
-        return;
-    }
-    if (current->isGroup())
-    {
-        return;
-    }
-    current->setValue(value);
-}
-
-void FLProgMenu::setValue(uint32_t value)
-{
-    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
-    if (current == 0)
-    {
-        return;
-    }
-    if (current->isGroup())
-    {
-        return;
-    }
-    current->setValue(value);
-}
-
-void FLProgMenu::setValue(float value)
-{
-    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
-    if (current == 0)
-    {
-        return;
-    }
-    if (current->isGroup())
-    {
-        return;
-    }
-    current->setValue(value);
-}
-
-void FLProgMenu::setValue(char value)
-{
-    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
-    if (current == 0)
-    {
-        return;
-    }
-    if (current->isGroup())
-    {
-        return;
-    }
-    current->setValue(value);
-}
-
 void FLProgMenu::setValue(String value)
 {
     FLProgAbstractMenuItem *current = getCurrentMenuIntem();
@@ -314,8 +420,18 @@ String FLProgMenu::aditionalString(uint8_t index)
     return current->aditionalString(index);
 }
 
+void FLProgMenu::resetController()
+{
+    if (_valueController == 0)
+    {
+        return;
+    }
+    _valueController->reset();
+}
+
 void FLProgMenu::reset()
 {
+    resetController();
     FLProgAbstractMenuItem *current = getCurrentMenuIntem();
     if (current == 0)
     {
@@ -331,41 +447,7 @@ void FLProgMenu::pressSymbolButton(char value)
     {
         return;
     }
-    if (current->isGroup())
-    {
-        return;
-    }
-    String temp = current->valueString();
-    if (value == '-')
-    {
-        if (temp.length() == 0)
-        {
-            return;
-        }
-        if (temp[0] == '-')
-        {
-            current->setValue(temp.substring(1));
-            return;
-        }
-        current->setValue((String('-') + temp));
-        return;
-    }
-    if ((value == '.') || (value == ','))
-    {
-        if (temp.length() == 0)
-        {
-            return;
-        }
-        if (temp.indexOf('.') > -1)
-        {
-            return;
-        }
-        temp.concat('.');
-        current->setValue(temp);
-        return;
-    }
-    temp.concat(value);
-    current->setValue(temp);
+    current->pressSymbolButton(value);
 }
 
 void FLProgMenu::menuGroupEnter()
@@ -388,7 +470,6 @@ void FLProgMenu::menuGroupEnter()
 }
 void FLProgMenu::menuGroupExit()
 {
-
     if (_itemsCounts <= 0)
     {
         return;
@@ -408,23 +489,107 @@ void FLProgMenu::pressBacspaceButton()
     {
         return;
     }
-    if (current->isGroup())
-    {
-        return;
-    }
-    String temp = current->valueString();
+    current->pressBacspaceButton();
+}
 
-    if (temp.length() == 0)
+bool FLProgMenu::currentMenuIsGroup()
+{
+    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
+    if (current == 0)
+    {
+        return false;
+    }
+    return current->isGroup();
+}
+
+bool FLProgMenu::isActiveMainMenu()
+{
+    if (_itemsCounts <= 0)
+    {
+        return false;
+    }
+    FLProgAbstractMenuItem *parent = getCurrentMenuItemParent();
+    if (parent == 0)
+    {
+        return true;
+    }
+    return false;
+}
+
+String FLProgMenu::nameParentMenu()
+{
+    if (_itemsCounts <= 0)
+    {
+        return "";
+    }
+    FLProgAbstractMenuItem *parent = getCurrentMenuItemParent();
+    if (parent == 0)
+    {
+        return _name;
+    }
+    return parent->name();
+}
+
+void FLProgMenu::setCurrentItem(FLProgAbstractMenuItem *item)
+{
+    _currentMenuItem = item;
+}
+
+void FLProgMenu::valueUpButtonStatus(bool status)
+{
+    if (_valueController == 0)
     {
         return;
     }
-    if (temp.length() == 1)
+    if (_valueController->valueUpButtonStatus(status))
     {
-        temp = "";
+        menuValueUp();
     }
-    else
+}
+void FLProgMenu::valueDownButtonStatus(bool status)
+{
+    if (_valueController == 0)
     {
-        temp = temp.substring(0, (temp.length() - 2));
+        return;
     }
-    current->setValue(temp);
+    if (_valueController->valueDownButtonStatus(status))
+    {
+        menuValueDown();
+    }
+}
+
+void FLProgMenu::setAccelerationTime(uint32_t time)
+{
+    if (_valueController == 0)
+    {
+        return;
+    }
+    _valueController->setAccelerationTime(time);
+}
+
+void FLProgMenu::setAccelerationPeriog(uint32_t time)
+{
+    if (_valueController == 0)
+    {
+        return;
+    }
+    _valueController->setAccelerationPeriog(time);
+}
+
+void FLProgMenu::setDoubleAccelerationTime(uint32_t time)
+{
+    if (_valueController == 0)
+    {
+        return;
+    }
+    _valueController->setDoubleAccelerationTime(time);
+}
+
+void FLProgMenu::setDoubleAccelerationPeriog(uint32_t time)
+{
+    if (_valueController == 0)
+    {
+        return;
+    }
+    _valueController->setDoubleAccelerationPeriog(time);
 }

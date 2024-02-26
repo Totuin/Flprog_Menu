@@ -1,0 +1,106 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+#######################################
+# # Datatypes (KEYWORD1)
+#######################################
+FLProgAbstractMenuItem	KEYWORD1
+FLProgAbstractValueController	KEYWORD1
+FLProgAccelerationValueController	KEYWORD1
+FLProgBasicMenuItem	KEYWORD1
+FLProgBooleanMenuItem	KEYWORD1
+FLProgByteMenuItem	KEYWORD1
+FLProgCharMenuItem	KEYWORD1
+FLProgDoubleAccelerationValueController	KEYWORD1
+FLProgFloatMenuItem	KEYWORD1
+FLProgGroupMenuItem	KEYWORD1
+FLProgIntegerMenuItem	KEYWORD1
+FLProgLongMenuItem	KEYWORD1
+FLProgMenu	KEYWORD1
+FLProgSingleImpulseValueController	KEYWORD1
+FLProgUnsignedLongMenuItem	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+aditionalString	KEYWORD2
+booleanValue	KEYWORD2
+byteleanValue	KEYWORD2
+charValue	KEYWORD2
+currentMenuIsGroup	KEYWORD2
+firstItem	KEYWORD2
+floatValue	KEYWORD2
+getCurrentMenuIntem	KEYWORD2
+getCurrentMenuItemParent	KEYWORD2
+integerValue	KEYWORD2
+isActiveMainMenu	KEYWORD2
+isBoolean	KEYWORD2
+isByte	KEYWORD2
+isChar	KEYWORD2
+isFloat	KEYWORD2
+isGroup	KEYWORD2
+isInteger	KEYWORD2
+isLong	KEYWORD2
+isRingControl	KEYWORD2
+isUnsignedLong	KEYWORD2
+longValue	KEYWORD2
+menuGroupEnter	KEYWORD2
+menuGroupExit	KEYWORD2
+menuItemDown	KEYWORD2
+menuItemUp	KEYWORD2
+menuValueDown	KEYWORD2
+menuValueUp	KEYWORD2
+name	KEYWORD2
+nameParentMenu	KEYWORD2
+nameString	KEYWORD2
+pressBacspaceButton	KEYWORD2
+pressSymbolButton	KEYWORD2
+reset	KEYWORD2
+resetController	KEYWORD2
+setAccelerationPeriog	KEYWORD2
+setAccelerationTime	KEYWORD2
+setAditionalString	KEYWORD2
+setBooleanValue	KEYWORD2
+setByteMaxValue	KEYWORD2
+setByteMinValue	KEYWORD2
+setByteValue	KEYWORD2
+setCharValue	KEYWORD2
+setConvertString	KEYWORD2
+setCurrentItem	KEYWORD2
+setDoubleAccelerationPeriog	KEYWORD2
+setDoubleAccelerationTime	KEYWORD2
+setFloatMaxValue	KEYWORD2
+setFloatMinValue	KEYWORD2
+setFloatValue	KEYWORD2
+setIntegeMaxValue	KEYWORD2
+setIntegeMinValue	KEYWORD2
+setIntegerValue	KEYWORD2
+setItem	KEYWORD2
+setLongMaxValue	KEYWORD2
+setLongMinValue	KEYWORD2
+setLongValue	KEYWORD2
+setName	KEYWORD2
+setStep	KEYWORD2
+setUnsignedLongMaxValue	KEYWORD2
+setUnsignedLongMinValue	KEYWORD2
+setUnsignedLongValue	KEYWORD2
+setValue	KEYWORD2
+setValueString	KEYWORD2
+unsignedLongValue	KEYWORD2
+valueDown	KEYWORD2
+valueDownButtonStatus	KEYWORD2
+valueString	KEYWORD2
+valueUp	KEYWORD2
+valueUpButtonStatus	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+FLPROG_MENU_ACCELERATION_VALUE_CONTROLLER	LITERAL1
+FLPROG_MENU_BIN_CONVERT_TYPE	LITERAL1
+FLPROG_MENU_DEC_CONVERT_TYPE	LITERAL1
+FLPROG_MENU_DOUBLE_ACCELERATION_VALUE_CONTROLLER	LITERAL1
+FLPROG_MENU_HEX_CONVERT_TYPE	LITERAL1
+FLPROG_MENU_NO_VALUE_CONTROLLER	LITERAL1
+FLPROG_MENU_SINGLE_IMPULSE_VALUE_CONTROLLER	LITERAL1
+FLPROG_MENU_SYMBOL_CONVERT_TYPE	LITERAL1

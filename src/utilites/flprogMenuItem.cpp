@@ -54,289 +54,6 @@ void FLProgAbstractMenuItem::setAditionalString(String value, uint8_t index)
     _additionalsStrings[index] = value;
 }
 
-void FLProgAbstractMenuItem::setValue(bool value)
-{
-    if (isBoolean())
-    {
-        setBooleanValue(value);
-        return;
-    }
-    uint8_t temp;
-    if (value)
-    {
-        temp = 1;
-    }
-    else
-    {
-        temp = 0;
-    }
-    if (isByte())
-    {
-        setByteValue(temp);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegerValue(temp);
-        return;
-    }
-    if (isLong())
-    {
-        setLongValue(temp);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongValue(temp);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatValue(temp);
-        return;
-    }
-    if (isChar())
-    {
-        setCharValue((char)temp);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setValue(uint8_t value)
-{
-    if (isBoolean())
-    {
-        setBooleanValue(value > 0);
-        return;
-    }
-    if (isByte())
-    {
-        setByteValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegerValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatValue(value);
-        return;
-    }
-    if (isChar())
-    {
-        setCharValue((char)value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setValue(int16_t value)
-{
-    if (isBoolean())
-    {
-        setBooleanValue(value > 0);
-        return;
-    }
-    if (isByte())
-    {
-        setByteValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegerValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatValue(value);
-        return;
-    }
-    if (isChar())
-    {
-        setCharValue((char)value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setValue(int32_t value)
-{
-    if (isBoolean())
-    {
-        setBooleanValue(value > 0);
-        return;
-    }
-    if (isByte())
-    {
-        setByteValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegerValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatValue(value);
-        return;
-    }
-    if (isChar())
-    {
-        setCharValue((char)value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setValue(uint32_t value)
-{
-    if (isBoolean())
-    {
-        setBooleanValue(value > 0);
-        return;
-    }
-    if (isByte())
-    {
-        setByteValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegerValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatValue(value);
-        return;
-    }
-    if (isChar())
-    {
-        setCharValue((char)value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setValue(float value)
-{
-    if (isBoolean())
-    {
-        setBooleanValue(value > 0);
-        return;
-    }
-    if (isByte())
-    {
-        setByteValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegerValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatValue(value);
-        return;
-    }
-    if (isChar())
-    {
-        setCharValue((char)value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setValue(char value)
-{
-    if (isChar())
-    {
-        setCharValue(value);
-        return;
-    }
-    uint8_t temp = (uint8_t)value;
-    if (isBoolean())
-    {
-        setBooleanValue(temp > 0);
-        return;
-    }
-    if (isByte())
-    {
-        setByteValue(temp);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegerValue(temp);
-        return;
-    }
-    if (isLong())
-    {
-        setLongValue(temp);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongValue(temp);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatValue(temp);
-        return;
-    }
-}
-
 void FLProgAbstractMenuItem::setValue(String value)
 {
     if (isBoolean())
@@ -354,305 +71,42 @@ void FLProgAbstractMenuItem::setValue(String value)
         setCharValue(flprog::stringToChar(value));
         return;
     }
-    setValue(value.toInt());
-}
 
-void FLProgAbstractMenuItem::setMaxValue(uint8_t value)
-{
+    /*  #define FLPROG_MENU_DEC_CONVERT_TYPE "D"
+    #define FLPROG_MENU_BIN_CONVERT_TYPE "B"
+    #define FLPROG_MENU_SYMBOL_CONVERT_TYPE "B"
+    */
 
+    int32_t temp;
+    if (convertString() == FLPROG_MENU_HEX_CONVERT_TYPE)
+    {
+        tempflprog::hexStringToLong(value);
+    }
+    else
+    {
+        temp = value.toInt();
+    }
     if (isByte())
     {
-        setByteMaxValue(value);
+        if ((temp >= 0) && (temp < 256))
+        {
+            setByteValue(temp);
+        }
         return;
     }
     if (isInteger())
     {
-        setIntegeMaxValue(value);
+        setIntegerValue(value.toInt());
         return;
     }
     if (isLong())
     {
-        setLongMaxValue(value);
+        setLongValue(value.toInt());
         return;
     }
     if (isUnsignedLong())
     {
-        setUnsignedLongMaxValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMaxValue(value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setMaxValue(int16_t value)
-{
-
-    if (isByte())
-    {
-        setByteMaxValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegeMaxValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongMaxValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongMaxValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMaxValue(value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setMaxValue(int32_t value)
-{
-
-    if (isByte())
-    {
-        setByteMaxValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegeMaxValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongMaxValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongMaxValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMaxValue(value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setMaxValue(uint32_t value)
-{
-
-    if (isByte())
-    {
-        setByteMaxValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegeMaxValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongMaxValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongMaxValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMaxValue(value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setMaxValue(float value)
-{
-
-    if (isByte())
-    {
-        setByteMaxValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegeMaxValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongMaxValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongMaxValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMaxValue(value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setMinValue(uint8_t value)
-{
-
-    if (isByte())
-    {
-        setByteMinValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegeMinValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongMinValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongMinValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMinValue(value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setMinValue(int16_t value)
-{
-
-    if (isByte())
-    {
-        setByteMinValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegeMinValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongMinValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongMinValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMinValue(value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setMinValue(int32_t value)
-{
-
-    if (isByte())
-    {
-        setByteMinValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegeMinValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongMinValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongMinValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMinValue(value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setMinValue(uint32_t value)
-{
-
-    if (isByte())
-    {
-        setByteMinValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegeMinValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongMinValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongMinValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMinValue(value);
-        return;
-    }
-}
-
-void FLProgAbstractMenuItem::setMinValue(float value)
-{
-
-    if (isByte())
-    {
-        setByteMinValue(value);
-        return;
-    }
-    if (isInteger())
-    {
-        setIntegeMinValue(value);
-        return;
-    }
-    if (isLong())
-    {
-        setLongMinValue(value);
-        return;
-    }
-    if (isUnsignedLong())
-    {
-        setUnsignedLongMinValue(value);
-        return;
-    }
-    if (isFloat())
-    {
-        setFloatMinValue(value);
+        setUnsignedLongValue(value.toInt());
         return;
     }
 }
@@ -867,6 +321,58 @@ String FLProgBasicMenuItem::valueString()
     return "";
 }
 
+void FLProgBasicMenuItem::privatePressSymbolButton(char value)
+{
+    String temp = valueString();
+    if (value == '-')
+    {
+        if (temp.length() == 0)
+        {
+            return;
+        }
+        if (temp[0] == '-')
+        {
+            setValue(temp.substring(1));
+            return;
+        }
+        setValue((String('-') + temp));
+        return;
+    }
+    if ((value == '.') || (value == ','))
+    {
+        if (temp.length() == 0)
+        {
+            return;
+        }
+        if (temp.indexOf('.') > -1)
+        {
+            return;
+        }
+        temp.concat('.');
+        setValue(temp);
+        return;
+    }
+    temp.concat(value);
+    setValue(temp);
+}
+
+void FLProgBasicMenuItem::privatePressBacspaceButton()
+{
+    String temp = valueString();
+    if (temp.length() == 0)
+    {
+        return;
+    }
+    if (temp.length() == 1)
+    {
+        temp = "";
+    }
+    else
+    {
+        temp = temp.substring(0, (temp.length() - 1));
+    }
+    setValue(temp);
+}
 //--------------------------------FLProgBooleanMenuItem---------------------------
 
 void FLProgBooleanMenuItem::setConvertString(String value, uint8_t index)
@@ -897,6 +403,20 @@ void FLProgBooleanMenuItem::valueUp()
 void FLProgBooleanMenuItem::valueDown()
 {
     _value = !_value;
+}
+
+void FLProgBooleanMenuItem::pressSymbolButton(char value)
+{
+    if (value == '0')
+    {
+        _value = false;
+        return;
+    }
+    if ((flprog::isNumberChar(value)) || (flprog::isHexNumberChar(value)))
+    {
+        _value = true;
+        return;
+    }
 }
 
 //--------------------------------FLProgByteMenuItem---------------------------
@@ -939,6 +459,36 @@ void FLProgByteMenuItem::valueDown()
     _value = _value - ((uint8_t)_step);
 }
 
+void FLProgByteMenuItem::pressSymbolButton(char value)
+{
+    if (flprog::isHexNumberChar(value))
+    {
+        if (_convertText == FLPROG_MENU_HEX_CONVERT_TYPE)
+        {
+            return;
+        }
+    }
+    if (!((flprog::isNumberChar(value)) || (flprog::isHexNumberChar(value))))
+    {
+        return;
+    }
+
+    if (_convertText == FLPROG_MENU_BIN_CONVERT_TYPE)
+    {
+
+        if (!((value == '0') || (value == '1')))
+        {
+            return;
+        }
+    }
+    privatePressSymbolButton(value);
+}
+
+void FLProgByteMenuItem::pressBacspaceButton()
+{
+    privatePressBacspaceButton();
+}
+
 //--------------------------------FLProgIntegerMenuItem---------------------------
 
 void FLProgIntegerMenuItem::setIntegeMaxValue(int16_t value)
@@ -979,6 +529,37 @@ void FLProgIntegerMenuItem::valueDown()
     _value = _value - ((int16_t)_step);
 }
 
+void FLProgIntegerMenuItem::pressSymbolButton(char value)
+{
+    if (value != '-')
+    {
+        if (flprog::isHexNumberChar(value))
+        {
+            if (_convertText == FLPROG_MENU_HEX_CONVERT_TYPE)
+            {
+                return;
+            }
+        }
+        if (!((flprog::isNumberChar(value)) || (flprog::isHexNumberChar(value))))
+        {
+            return;
+        }
+
+        if (_convertText == FLPROG_MENU_BIN_CONVERT_TYPE)
+        {
+
+            if (!((value == '0') || (value == '1')))
+            {
+                return;
+            }
+        }
+    }
+    privatePressSymbolButton(value);
+}
+void FLProgIntegerMenuItem::pressBacspaceButton()
+{
+    privatePressBacspaceButton();
+}
 //--------------------------------FLProgLongMenuItem---------------------------
 
 void FLProgLongMenuItem::setLongMaxValue(int32_t value)
