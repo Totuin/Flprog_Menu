@@ -1,7 +1,14 @@
 #pragma once
 #include <Arduino.h>
 #include "flprogUtilites.h"
-#include "utilites/flprogMenuItem.h"
+#include "utilites/basic/flprogGroupMenuItem.h"
+#include "utilites/types/flprogBooleanMenuItem.h"
+#include "utilites/types/flprogByteMenuItem.h"
+#include "utilites/types/flprogIntegerMenuItem.h"
+#include "utilites/types/flprogLongMenuItem.h"
+#include "utilites/types/flprogUnsignedLongMenuItem.h"
+#include "utilites/types/flprogFloatMenuItem.h"
+#include "utilites/types/flprogCharMenuItem.h"
 
 #define FLPROG_MENU_NO_VALUE_CONTROLLER 0
 #define FLPROG_MENU_SINGLE_IMPULSE_VALUE_CONTROLLER 1
