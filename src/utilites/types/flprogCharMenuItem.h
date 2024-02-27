@@ -17,6 +17,9 @@ public:
 
     virtual void valueUp();
     virtual void valueDown();
+    virtual void pressSymbolButton(char value);
+    virtual void pressBacspaceButton();
+    virtual void pressClearButton() { _value = (char)0; };
 
     virtual bool isChar() { return true; };
 

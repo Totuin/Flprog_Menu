@@ -1,195 +1,5 @@
 #include "flprogMenu.h"
 
-//--------------------------FLProgSingleImpulseValueController-----------------------------------
-
-bool FLProgSingleImpulseValueController::valueUpButtonStatus(bool status)
-{
-    if (status)
-    {
-        if (!_oldValueUpStatus)
-        {
-            _oldValueUpStatus = true;
-            return true;
-        }
-        return false;
-    }
-    _oldValueUpStatus = false;
-    return false;
-}
-bool FLProgSingleImpulseValueController::valueDownButtonStatus(bool status)
-{
-    if (status)
-    {
-        if (!_oldValueDownStatus)
-        {
-            _oldValueDownStatus = true;
-            return true;
-        }
-        return false;
-    }
-    _oldValueDownStatus = false;
-    return false;
-}
-
-//--------------------------FLProgAccelerationValueController-----------------------------------
-
-bool FLProgAccelerationValueController::valueUpButtonStatus(bool status)
-{
-    if (_oldValueDownStatus)
-    {
-        return false;
-    }
-    if (status)
-    {
-        if (!_oldValueUpStatus)
-        {
-            _oldValueUpStatus = true;
-            startPressTime = millis();
-            return true;
-        }
-        return checkStatus();
-    }
-    _oldValueUpStatus = false;
-    isCanEvents = false;
-    return false;
-}
-bool FLProgAccelerationValueController::valueDownButtonStatus(bool status)
-{
-    if (_oldValueUpStatus)
-    {
-        return false;
-    }
-    if (status)
-    {
-        if (!_oldValueDownStatus)
-        {
-            _oldValueDownStatus = true;
-            startPressTime = millis();
-            return true;
-        }
-        return checkStatus();
-    }
-    _oldValueDownStatus = false;
-    isCanEvents = false;
-    return false;
-}
-
-bool FLProgAccelerationValueController::checkStatus()
-{
-    if (isCanEvents)
-    {
-        if (flprog::isTimer(lastEventTime, updatePeriod))
-        {
-            lastEventTime = millis();
-            return true;
-        }
-        return false;
-    }
-    if (flprog::isTimer(startPressTime, startAccelerationTime))
-    {
-        isCanEvents = true;
-        lastEventTime = millis();
-        return true;
-    }
-    return false;
-}
-
-void FLProgAccelerationValueController::reset()
-{
-    _oldValueUpStatus = false;
-    _oldValueDownStatus = false;
-    isCanEvents = false;
-}
-
-//--------------------------FLProgDoubleAccelerationValueController-----------------------------------
-
-bool FLProgDoubleAccelerationValueController::valueUpButtonStatus(bool status)
-{
-    if (_oldValueDownStatus)
-    {
-        return false;
-    }
-    if (status)
-    {
-        if (!_oldValueUpStatus)
-        {
-            _oldValueUpStatus = true;
-            startPressTime = millis();
-            return true;
-        }
-        return checkStatus();
-    }
-    _oldValueUpStatus = false;
-    isCanEvents = false;
-    return false;
-}
-bool FLProgDoubleAccelerationValueController::valueDownButtonStatus(bool status)
-{
-    if (_oldValueUpStatus)
-    {
-        return false;
-    }
-    if (status)
-    {
-        if (!_oldValueDownStatus)
-        {
-            _oldValueDownStatus = true;
-            startPressTime = millis();
-            return true;
-        }
-        return checkStatus();
-    }
-    _oldValueDownStatus = false;
-    isCanEvents = false;
-    isCanDoubleEvents = false;
-    return false;
-}
-
-bool FLProgDoubleAccelerationValueController::checkStatus()
-{
-    if (isCanDoubleEvents)
-    {
-        if (flprog::isTimer(lastEventTime, doubleUpdatePeriod))
-        {
-            lastEventTime = millis();
-            return true;
-        }
-        return false;
-    }
-
-    if (isCanEvents)
-    {
-        if (flprog::isTimer(startPressTime, doubleStartAccelerationTime))
-        {
-            isCanDoubleEvents = true;
-        }
-        if (flprog::isTimer(lastEventTime, updatePeriod))
-        {
-            lastEventTime = millis();
-            return true;
-        }
-        return false;
-    }
-    if (flprog::isTimer(startPressTime, startAccelerationTime))
-    {
-        isCanEvents = true;
-        startPressTime = millis();
-        lastEventTime = millis();
-        return true;
-    }
-    return false;
-}
-
-void FLProgDoubleAccelerationValueController::reset()
-{
-    _oldValueUpStatus = false;
-    _oldValueDownStatus = false;
-    isCanEvents = false;
-    isCanDoubleEvents = false;
-}
-
-//--------------------------FLProgMenu-----------------------------------
-
 FLProgMenu::FLProgMenu(String name, int16_t itemsCounts, uint8_t valueControllerType)
 {
     _items = new FLProgAbstractMenuItem *[itemsCounts];
@@ -310,6 +120,10 @@ int16_t FLProgMenu::indexForCurrentItem()
 
 FLProgAbstractMenuItem *FLProgMenu::next()
 {
+    if (_currentMenuItem != 0)
+    {
+        _currentMenuItem->resetInput();
+    }
     int16_t index = indexForCurrentItem();
     if (index < 0)
     {
@@ -330,6 +144,10 @@ FLProgAbstractMenuItem *FLProgMenu::next()
 }
 FLProgAbstractMenuItem *FLProgMenu::previous()
 {
+    if (_currentMenuItem != 0)
+    {
+        _currentMenuItem->resetInput();
+    }
     int16_t index = indexForCurrentItem();
     if (index < 0)
     {
@@ -490,6 +308,16 @@ void FLProgMenu::pressBacspaceButton()
         return;
     }
     current->pressBacspaceButton();
+}
+
+void FLProgMenu::pressClearButton()
+{
+    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
+    if (current == 0)
+    {
+        return;
+    }
+    current->pressClearButton();
 }
 
 bool FLProgMenu::currentMenuIsGroup()

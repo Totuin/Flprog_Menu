@@ -22,6 +22,7 @@ public:
 
     virtual void pressSymbolButton(char value);
     virtual void pressBacspaceButton();
+    virtual void pressClearButton() ;
 
     virtual bool isByte() { return true; };
 

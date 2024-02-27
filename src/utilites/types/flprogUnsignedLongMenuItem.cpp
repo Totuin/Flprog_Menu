@@ -96,6 +96,7 @@ void FLProgUnsignedLongMenuItem::setUnsignedLongMaxValue(uint32_t value)
 void FLProgUnsignedLongMenuItem::setUnsignedLongMinValue(uint32_t value)
 {
     _minValue = value;
+    _value = value;
     _hasMin = true;
 }
 
@@ -129,4 +130,14 @@ void FLProgUnsignedLongMenuItem::valueDown()
         return;
     }
     _value = _value - ((uint32_t)_step);
+}
+
+void FLProgUnsignedLongMenuItem::pressClearButton()
+{
+    if (_hasMin)
+    {
+        _value = _minValue;
+        return;
+    }
+    _value = 0;
 }

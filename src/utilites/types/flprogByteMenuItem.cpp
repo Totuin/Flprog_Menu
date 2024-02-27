@@ -49,6 +49,7 @@ void FLProgByteMenuItem::setByteMaxValue(uint8_t value)
 void FLProgByteMenuItem::setByteMinValue(uint8_t value)
 {
     _minValue = value;
+    _value = value;
     _hasMin = true;
 }
 
@@ -132,4 +133,14 @@ void FLProgByteMenuItem::pressSymbolButton(char value)
 void FLProgByteMenuItem::pressBacspaceButton()
 {
     privatePressBacspaceButton();
+}
+
+void FLProgByteMenuItem::pressClearButton()
+{
+    if (_hasMin)
+    {
+        _value = _minValue;
+        return;
+    }
+    _value = 0;
 }

@@ -63,6 +63,11 @@ void FLProgIntegerMenuItem::setIntegeMaxValue(int16_t value)
 void FLProgIntegerMenuItem::setIntegeMinValue(int16_t value)
 {
     _minValue = value;
+    if (!(_minValue < 0))
+    {
+        _value = _minValue;
+        return;
+    }
     _hasMin = true;
 }
 
@@ -153,4 +158,17 @@ void FLProgIntegerMenuItem::pressSymbolButton(char value)
 void FLProgIntegerMenuItem::pressBacspaceButton()
 {
     privatePressBacspaceButton();
+}
+
+void FLProgIntegerMenuItem::pressClearButton()
+{
+    if (_hasMin)
+    {
+        if (!(_minValue < 0))
+        {
+            _value = _minValue;
+            return;
+        }
+    }
+    _value = 0;
 }

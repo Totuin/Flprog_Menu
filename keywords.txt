@@ -25,8 +25,9 @@ FLProgUnsignedLongMenuItem	KEYWORD1
 #######################################
 aditionalString	KEYWORD2
 booleanValue	KEYWORD2
-byteleanValue	KEYWORD2
+byteValue	KEYWORD2
 charValue	KEYWORD2
+convertType	KEYWORD2
 currentMenuIsGroup	KEYWORD2
 firstItem	KEYWORD2
 floatValue	KEYWORD2
@@ -54,9 +55,11 @@ name	KEYWORD2
 nameParentMenu	KEYWORD2
 nameString	KEYWORD2
 pressBacspaceButton	KEYWORD2
+pressClearButton	KEYWORD2
 pressSymbolButton	KEYWORD2
 reset	KEYWORD2
 resetController	KEYWORD2
+resetInput	KEYWORD2
 setAccelerationPeriog	KEYWORD2
 setAccelerationTime	KEYWORD2
 setAditionalString	KEYWORD2
@@ -65,7 +68,7 @@ setByteMaxValue	KEYWORD2
 setByteMinValue	KEYWORD2
 setByteValue	KEYWORD2
 setCharValue	KEYWORD2
-setConvertString	KEYWORD2
+setConverType	KEYWORD2
 setCurrentItem	KEYWORD2
 setDoubleAccelerationPeriog	KEYWORD2
 setDoubleAccelerationTime	KEYWORD2
@@ -86,6 +89,8 @@ setUnsignedLongMinValue	KEYWORD2
 setUnsignedLongValue	KEYWORD2
 setValue	KEYWORD2
 setValueString	KEYWORD2
+textForFalse	KEYWORD2
+textForTrue	KEYWORD2
 unsignedLongValue	KEYWORD2
 valueDown	KEYWORD2
 valueDownButtonStatus	KEYWORD2

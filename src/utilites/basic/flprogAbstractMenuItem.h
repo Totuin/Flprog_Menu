@@ -65,6 +65,8 @@ public:
     virtual void valueDown(){};
     virtual void pressSymbolButton(char value) { (void)value; };
     virtual void pressBacspaceButton(){};
+    virtual void resetInput(){};
+    virtual void pressClearButton(){};
 
     virtual FLProgAbstractMenuItem *getCurrentMenuItemParent(FLProgAbstractMenuItem *current);
     virtual FLProgAbstractMenuItem *menuItemUp(FLProgAbstractMenuItem *current, bool isRingControl);

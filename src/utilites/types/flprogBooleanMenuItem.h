@@ -18,6 +18,7 @@ public:
     virtual void valueDown();
     virtual void setBooleanValue(bool value) { _value = value; };
     virtual void pressSymbolButton(char value);
+    virtual void pressClearButton() { _value = false; };
 
     void textForTrue(String value) { _textForTrue = value; };
     void textForFalse(String value) { _textForFalse = value; };

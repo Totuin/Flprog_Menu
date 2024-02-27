@@ -64,6 +64,10 @@ FLProgAbstractMenuItem *FLProgGroupMenuItem::menuItemDown(FLProgAbstractMenuItem
 
 FLProgAbstractMenuItem *FLProgGroupMenuItem::previous(FLProgAbstractMenuItem *current, bool _isRingControl)
 {
+    if (current != 0)
+    {
+        current->resetInput();
+    }
     int16_t index = indexForCurrentItem(current);
     if (index < 0)
     {
@@ -85,6 +89,10 @@ FLProgAbstractMenuItem *FLProgGroupMenuItem::previous(FLProgAbstractMenuItem *cu
 
 FLProgAbstractMenuItem *FLProgGroupMenuItem::next(FLProgAbstractMenuItem *current, bool _isRingControl)
 {
+    if (current != 0)
+    {
+        current->resetInput();
+    }
     int16_t index = indexForCurrentItem(current);
     if (index < 0)
     {

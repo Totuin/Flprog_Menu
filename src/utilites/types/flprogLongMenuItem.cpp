@@ -74,6 +74,11 @@ void FLProgLongMenuItem::setLongMaxValue(int32_t value)
 void FLProgLongMenuItem::setLongMinValue(int32_t value)
 {
     _minValue = value;
+    if (!(_minValue < 0))
+    {
+        _value = _minValue;
+        return;
+    }
     _hasMin = true;
 }
 
@@ -139,4 +144,17 @@ void FLProgLongMenuItem::pressSymbolButton(char value)
 void FLProgLongMenuItem::pressBacspaceButton()
 {
     privatePressBacspaceButton();
+}
+
+void FLProgLongMenuItem::pressClearButton()
+{
+    if (_hasMin)
+    {
+        if (!(_minValue < 0))
+        {
+            _value = _minValue;
+            return;
+        }
+    }
+    _value = 0;
 }

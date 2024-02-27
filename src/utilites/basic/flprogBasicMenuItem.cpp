@@ -17,20 +17,6 @@ void FLProgBasicMenuItem::privatePressSymbolButton(char value)
         setValue((String('-') + temp));
         return;
     }
-    if ((value == '.') || (value == ','))
-    {
-        if (temp.length() == 0)
-        {
-            return;
-        }
-        if (temp.indexOf('.') > -1)
-        {
-            return;
-        }
-        temp.concat('.');
-        setValue(temp);
-        return;
-    }
     temp.concat(value);
     setValue(temp);
 }
