@@ -76,37 +76,64 @@ void FLProgAbstractMenuItem::setValue(String value)
     #define FLPROG_MENU_BIN_CONVERT_TYPE "B"
     #define FLPROG_MENU_SYMBOL_CONVERT_TYPE "B"
     */
-
-    int32_t temp;
-    if (convertString() == FLPROG_MENU_HEX_CONVERT_TYPE)
+    value.toUpperCase();
+    uint32_t temp;
+    if (convertType() == FLPROG_MENU_HEX_CONVERT_TYPE)
     {
-        tempflprog::hexStringToLong(value);
+        if (isUnsignedLong())
+        {
+            temp = flprog::hexStringToUnsignedLong(value);
+        }
+        else
+        {
+            temp = flprog::hexStringToLong(value);
+        }
     }
     else
     {
-        temp = value.toInt();
+        if (convertType() == FLPROG_MENU_BIN_CONVERT_TYPE)
+        {
+            if (isUnsignedLong())
+            {
+                temp = flprog::binStringToUnsignedLong(value);
+            }
+            else
+            {
+                temp = flprog::binStringToLong(value);
+            }
+        }
+        else
+        {
+            temp = value.toInt();
+        }
     }
     if (isByte())
     {
-        if ((temp >= 0) && (temp < 256))
+        if (temp < 256)
         {
-            setByteValue(temp);
+            setByteValue((uint8_t)temp);
         }
         return;
     }
     if (isInteger())
     {
-        setIntegerValue(value.toInt());
+        if ((((int32_t)temp) < 32768) && (((int32_t)temp) > -32768))
+        {
+            setIntegerValue((int16_t)temp);
+        }
         return;
     }
     if (isLong())
     {
-        setLongValue(value.toInt());
+        if ((((int32_t)temp) < 2147483647) && (((int32_t)temp) > -2147483647))
+        {
+            setLongValue((int32_t)temp);
+        }
         return;
     }
     if (isUnsignedLong())
     {
-        setUnsignedLongValue(value.toInt());
+        setUnsignedLongValue(temp);
         return;
     }
 }
@@ -127,12 +154,6 @@ void FLProgGroupMenuItem::setItem(int16_t index, FLProgAbstractMenuItem *item)
         return;
     }
     _items[index] = item;
-}
-
-void FLProgGroupMenuItem::setConvertString(String value, uint8_t index)
-{
-    (void)value;
-    (void)index;
 }
 
 FLProgAbstractMenuItem *FLProgGroupMenuItem::getCurrentMenuItemParent(FLProgAbstractMenuItem *current)
@@ -250,72 +271,31 @@ FLProgAbstractMenuItem *FLProgGroupMenuItem::firstItem()
 
 //--------------------------------FLProgBasicMenuItem---------------------------
 
-void FLProgBasicMenuItem::setConvertString(String value, uint8_t index)
-{
-    if (index != 0)
-    {
-        return;
-    }
-    _convertText = value;
-}
-
 String FLProgBasicMenuItem::valueString()
 {
-    if (_convertText.equals(FLPROG_MENU_DEC_CONVERT_TYPE))
+    if (_convertType == FLPROG_MENU_DEC_CONVERT_TYPE)
     {
-        if (isByte())
-        {
-            return String(byteleanValue(), DEC);
-        }
-        if (isInteger())
-        {
-            return String(integerValue(), DEC);
-        }
-        if (isLong())
-        {
-            return String(longValue(), DEC);
-        }
         if (isUnsignedLong())
         {
             return String(unsignedLongValue(), DEC);
         }
     }
-    if (_convertText.equals(FLPROG_MENU_HEX_CONVERT_TYPE))
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
     {
-        if (isByte())
-        {
-            return String(byteleanValue(), HEX);
-        }
-        if (isInteger())
-        {
-            return String(integerValue(), HEX);
-        }
-        if (isLong())
-        {
-            return String(longValue(), HEX);
-        }
-        if (isUnsignedLong())
-        {
-            return String(unsignedLongValue(), HEX);
-        }
-    }
-    if (_convertText.equals(FLPROG_MENU_BIN_CONVERT_TYPE))
-    {
-        if (isByte())
-        {
-            return String(byteleanValue(), BIN);
-        }
-        if (isInteger())
-        {
-            return String(integerValue(), BIN);
-        }
-        if (isLong())
-        {
-            return String(longValue(), BIN);
-        }
         if (isUnsignedLong())
         {
             return String(unsignedLongValue(), BIN);
+        }
+    }
+    String temp;
+    if (_convertType == FLPROG_MENU_HEX_CONVERT_TYPE)
+    {
+
+        if (isUnsignedLong())
+        {
+            temp = String(unsignedLongValue(), HEX);
+            temp.toUpperCase();
+            return temp;
         }
     }
     return "";
@@ -330,7 +310,7 @@ void FLProgBasicMenuItem::privatePressSymbolButton(char value)
         {
             return;
         }
-        if (temp[0] == '-')
+        if (temp.charAt(0) == '-')
         {
             setValue(temp.substring(1));
             return;
@@ -375,23 +355,11 @@ void FLProgBasicMenuItem::privatePressBacspaceButton()
 }
 //--------------------------------FLProgBooleanMenuItem---------------------------
 
-void FLProgBooleanMenuItem::setConvertString(String value, uint8_t index)
-{
-    if (index == 0)
-    {
-        _textForFalse = value;
-    }
-    if (index == 1)
-    {
-        _convertText = value;
-    }
-}
-
 String FLProgBooleanMenuItem::valueString()
 {
     if (_value)
     {
-        return _convertText;
+        return _textForTrue;
     }
     return _textForFalse;
 }
@@ -421,6 +389,21 @@ void FLProgBooleanMenuItem::pressSymbolButton(char value)
 
 //--------------------------------FLProgByteMenuItem---------------------------
 
+String FLProgByteMenuItem::valueString()
+{
+    if (_convertType == FLPROG_MENU_DEC_CONVERT_TYPE)
+    {
+        return String(_value, DEC);
+    }
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
+    {
+        return String(_value, BIN);
+    }
+    String temp = String(_value, HEX);
+    temp.toUpperCase();
+    return temp;
+}
+
 void FLProgByteMenuItem::setByteMaxValue(uint8_t value)
 {
     _maxValue = value;
@@ -432,38 +415,63 @@ void FLProgByteMenuItem::setByteMinValue(uint8_t value)
     _hasMin = true;
 }
 
-void FLProgByteMenuItem::valueUp()
-{
-    if (_hasMax)
-    {
-        if (_value >= _maxValue)
-            return;
-    }
-    if (_value == 255)
-    {
-        return;
-    }
-    _value = _value + ((uint8_t)_step);
-}
-void FLProgByteMenuItem::valueDown()
+void FLProgByteMenuItem::setByteValue(uint8_t value)
 {
     if (_hasMin)
     {
-        if (_value <= _minValue)
+        if (value < _minValue)
+        {
             return;
+        }
     }
-    if (_value == 0)
+    if (_hasMax)
+    {
+        if (value > _maxValue)
+        {
+            return;
+        }
+    }
+    _value = value;
+}
+
+void FLProgByteMenuItem::valueUp()
+{
+    int16_t temp = _value + ((uint8_t)_step);
+    if (_hasMax)
+    {
+        if (temp > _maxValue)
+        {
+            return;
+        }
+    }
+    if (temp > 255)
     {
         return;
     }
-    _value = _value - ((uint8_t)_step);
+    _value = (uint8_t)temp;
+}
+void FLProgByteMenuItem::valueDown()
+{
+    int16_t temp = _value - ((uint8_t)_step);
+    if (_hasMin)
+    {
+        if (temp < _minValue)
+        {
+            return;
+        }
+    }
+    if (temp < 0)
+    {
+        return;
+    }
+    _value = (uint8_t)temp;
 }
 
 void FLProgByteMenuItem::pressSymbolButton(char value)
 {
     if (flprog::isHexNumberChar(value))
     {
-        if (_convertText == FLPROG_MENU_HEX_CONVERT_TYPE)
+        if (_convertType != FLPROG_MENU_HEX_CONVERT_TYPE)
         {
             return;
         }
@@ -473,7 +481,7 @@ void FLProgByteMenuItem::pressSymbolButton(char value)
         return;
     }
 
-    if (_convertText == FLPROG_MENU_BIN_CONVERT_TYPE)
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
     {
 
         if (!((value == '0') || (value == '1')))
@@ -491,6 +499,30 @@ void FLProgByteMenuItem::pressBacspaceButton()
 
 //--------------------------------FLProgIntegerMenuItem---------------------------
 
+String FLProgIntegerMenuItem::valueString()
+{
+    int16_t tempValue = abs(_value);
+    String temp;
+    if (_convertType == FLPROG_MENU_DEC_CONVERT_TYPE)
+    {
+        temp = String(tempValue, DEC);
+    }
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
+    {
+        temp = String(tempValue, BIN);
+    }
+    if (_convertType == FLPROG_MENU_HEX_CONVERT_TYPE)
+    {
+        temp = String(tempValue, HEX);
+    }
+    if (_value < 0)
+    {
+        temp = "-" + temp;
+    }
+    temp.toUpperCase();
+    return temp;
+}
+
 void FLProgIntegerMenuItem::setIntegeMaxValue(int16_t value)
 {
     _maxValue = value;
@@ -502,65 +534,139 @@ void FLProgIntegerMenuItem::setIntegeMinValue(int16_t value)
     _hasMin = true;
 }
 
-void FLProgIntegerMenuItem::valueUp()
-{
-    if (_hasMax)
-    {
-        if (_value >= _maxValue)
-            return;
-    }
-    if (_value == 32767)
-    {
-        return;
-    }
-    _value = _value + ((int16_t)_step);
-}
-void FLProgIntegerMenuItem::valueDown()
+void FLProgIntegerMenuItem::setIntegerValue(int16_t value)
+
 {
     if (_hasMin)
     {
-        if (_value <= _minValue)
+        if (value < _minValue)
+        {
             return;
+        }
     }
-    if (_value == -32768)
+
+    if (_hasMax)
+    {
+        if (value > _maxValue)
+        {
+            return;
+        }
+    }
+    _value = value;
+};
+
+void FLProgIntegerMenuItem::valueUp()
+{
+    int32_t temp = _value + ((int16_t)_step);
+    if (_hasMax)
+    {
+        if (temp > _maxValue)
+        {
+            return;
+        }
+    }
+    if (temp > 32767)
     {
         return;
     }
-    _value = _value - ((int16_t)_step);
+    _value = (int16_t)temp;
+}
+
+void FLProgIntegerMenuItem::valueDown()
+{
+    int32_t temp = _value - ((int16_t)_step);
+    if (_hasMin)
+    {
+        if (temp < _minValue)
+        {
+            return;
+        }
+    }
+    if (temp < -32767)
+    {
+        return;
+    }
+    _value = (int16_t)temp;
 }
 
 void FLProgIntegerMenuItem::pressSymbolButton(char value)
 {
-    if (value != '-')
+    if (value == '-')
     {
-        if (flprog::isHexNumberChar(value))
+        privatePressSymbolButton(value);
+        return;
+    }
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
+    {
+
+        if ((value == '0') || (value == '1'))
         {
-            if (_convertText == FLPROG_MENU_HEX_CONVERT_TYPE)
-            {
-                return;
-            }
+            privatePressSymbolButton(value);
         }
-        if (!((flprog::isNumberChar(value)) || (flprog::isHexNumberChar(value))))
+        return;
+    }
+    if (flprog::isHexNumberChar(value))
+    {
+        if (_convertType != FLPROG_MENU_HEX_CONVERT_TYPE)
         {
             return;
         }
-
-        if (_convertText == FLPROG_MENU_BIN_CONVERT_TYPE)
-        {
-
-            if (!((value == '0') || (value == '1')))
-            {
-                return;
-            }
-        }
     }
-    privatePressSymbolButton(value);
+    if ((flprog::isNumberChar(value)) || (flprog::isHexNumberChar(value)))
+    {
+        privatePressSymbolButton(value);
+    }
 }
+
 void FLProgIntegerMenuItem::pressBacspaceButton()
 {
     privatePressBacspaceButton();
 }
 //--------------------------------FLProgLongMenuItem---------------------------
+
+String FLProgLongMenuItem::valueString()
+{
+    int32_t tempValue = abs(_value);
+    String temp;
+
+    if (_convertType == FLPROG_MENU_DEC_CONVERT_TYPE)
+    {
+        temp = String(tempValue, DEC);
+    }
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
+    {
+        temp = String(tempValue, BIN);
+    }
+    if (_convertType == FLPROG_MENU_HEX_CONVERT_TYPE)
+    {
+        temp = String(tempValue, HEX);
+    }
+    if (_value < 0)
+    {
+        temp = "-" + temp;
+    }
+    temp.toUpperCase();
+    return temp;
+}
+
+void FLProgLongMenuItem::setLongValue(int32_t value)
+{
+    if (_hasMax)
+    {
+        if (value > _maxValue)
+        {
+            return;
+        }
+    }
+    if (_hasMin)
+    {
+        if (value < _minValue)
+        {
+            return;
+        }
+    }
+    _value = value;
+}
 
 void FLProgLongMenuItem::setLongMaxValue(int32_t value)
 {
@@ -577,10 +683,10 @@ void FLProgLongMenuItem::valueUp()
 {
     if (_hasMax)
     {
-        if (_value >= _maxValue)
+        if (_value > (_maxValue - ((int32_t)_step)))
             return;
     }
-    if (_value == 2147483647)
+    if (_value > (2147483647 - ((int32_t)_step)))
     {
         return;
     }
@@ -591,17 +697,116 @@ void FLProgLongMenuItem::valueDown()
 {
     if (_hasMin)
     {
-        if (_value <= _minValue)
+        if (_value < (_minValue + ((int32_t)_step)))
+        {
             return;
+        }
     }
-    if (_value == -2147483648)
+    if (_value < (-2147483647 + ((int32_t)_step)))
     {
         return;
     }
     _value = _value - ((int32_t)_step);
 }
 
+void FLProgLongMenuItem::pressSymbolButton(char value)
+{
+    if (value == '-')
+    {
+        privatePressSymbolButton(value);
+        return;
+    }
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
+    {
+
+        if ((value == '0') || (value == '1'))
+        {
+            privatePressSymbolButton(value);
+        }
+        return;
+    }
+    if (flprog::isHexNumberChar(value))
+    {
+        if (_convertType != FLPROG_MENU_HEX_CONVERT_TYPE)
+        {
+            return;
+        }
+    }
+    if ((flprog::isNumberChar(value)) || (flprog::isHexNumberChar(value)))
+    {
+        privatePressSymbolButton(value);
+    }
+}
+
+void FLProgLongMenuItem::pressBacspaceButton()
+{
+    privatePressBacspaceButton();
+}
+
 //--------------------------------FLProgUnsignedLongMenuItem---------------------------
+void FLProgUnsignedLongMenuItem::setUnsignedLongValue(uint32_t value)
+{
+    if (_hasMin)
+    {
+        if (value < _minValue)
+        {
+            return;
+        }
+    }
+    if (_hasMax)
+    {
+        if (value > _maxValue)
+        {
+            return;
+        }
+    }
+    _value = value;
+}
+
+void FLProgUnsignedLongMenuItem::pressSymbolButton(char value)
+{
+    if (flprog::isHexNumberChar(value))
+    {
+        if (_convertType != FLPROG_MENU_HEX_CONVERT_TYPE)
+        {
+            return;
+        }
+    }
+    if (!((flprog::isNumberChar(value)) || (flprog::isHexNumberChar(value))))
+    {
+        return;
+    }
+
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
+    {
+
+        if (!((value == '0') || (value == '1')))
+        {
+            return;
+        }
+    }
+    privatePressSymbolButton(value);
+}
+
+void FLProgUnsignedLongMenuItem::pressBacspaceButton()
+{
+    privatePressBacspaceButton();
+}
+
+String FLProgUnsignedLongMenuItem::valueString()
+{
+    if (_convertType == FLPROG_MENU_DEC_CONVERT_TYPE)
+    {
+        return String(_value, DEC);
+    }
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
+    {
+        return String(_value, BIN);
+    }
+    String temp = String(_value, HEX);
+    temp.toUpperCase();
+    return temp;
+}
 
 void FLProgUnsignedLongMenuItem::setUnsignedLongMaxValue(uint32_t value)
 {
@@ -618,10 +823,12 @@ void FLProgUnsignedLongMenuItem::valueUp()
 {
     if (_hasMax)
     {
-        if (_value >= _maxValue)
+        if (_value > (_maxValue - ((uint32_t)_step)))
+        {
             return;
+        }
     }
-    if (_value == 4294967295)
+    if (_value > (4294967295 - ((uint32_t)_step)))
     {
         return;
     }
@@ -632,8 +839,10 @@ void FLProgUnsignedLongMenuItem::valueDown()
 {
     if (_hasMin)
     {
-        if (_value <= _minValue)
+        if (_value < (_minValue + ((uint32_t)_step)))
+        {
             return;
+        }
     }
     if (_value == 0)
     {
@@ -647,12 +856,12 @@ void FLProgUnsignedLongMenuItem::valueDown()
 FLProgFloatMenuItem::FLProgFloatMenuItem(String name, uint8_t aditionalsStringsCount)
 {
     initItem(name, aditionalsStringsCount);
-    _convertText = "2";
+    _convertType = 2;
 }
 
 String FLProgFloatMenuItem::valueString()
 {
-    return String(_value, (_convertText.toInt()));
+    return String(_value, _convertType);
 }
 
 void FLProgFloatMenuItem::setFloatMaxValue(float value)
@@ -692,25 +901,25 @@ void FLProgFloatMenuItem::valueDown()
 FLProgCharMenuItem::FLProgCharMenuItem(String name, uint8_t aditionalsStringsCount)
 {
     initItem(name, aditionalsStringsCount);
-    _convertText = FLPROG_MENU_SYMBOL_CONVERT_TYPE;
+    _convertType = FLPROG_MENU_SYMBOL_CONVERT_TYPE;
 }
 
 String FLProgCharMenuItem::valueString()
 {
-    if (_convertText.equals(FLPROG_MENU_DEC_CONVERT_TYPE))
+    if (_convertType == FLPROG_MENU_DEC_CONVERT_TYPE)
     {
         return String((uint8_t)_value, DEC);
     }
-    if (_convertText.equals(FLPROG_MENU_HEX_CONVERT_TYPE))
+    if (_convertType == FLPROG_MENU_HEX_CONVERT_TYPE)
     {
         return String((uint8_t)_value, HEX);
     }
-    if (_convertText.equals(FLPROG_MENU_BIN_CONVERT_TYPE))
+    if (_convertType == FLPROG_MENU_BIN_CONVERT_TYPE)
     {
         return String((uint8_t)_value, BIN);
     }
 
-    if (_convertText.equals(FLPROG_MENU_SYMBOL_CONVERT_TYPE))
+    if (_convertType == FLPROG_MENU_SYMBOL_CONVERT_TYPE)
     {
         return String(_value);
     }
