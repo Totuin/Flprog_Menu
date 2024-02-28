@@ -13,3 +13,18 @@ void FLProgEepromBooleanMenuItem::saveBuffer()
 {
     _chip->saveBoolean(_addres, _bit, _value);
 }
+
+void FLProgEepromBooleanMenuItem::setBooleanValue(bool value)
+{
+    FLProgBooleanMenuItem::setBooleanValue(value);
+    if (_isBuffered)
+    {
+        return;
+    }
+    saveBuffer();
+}
+
+void FLProgEepromBooleanMenuItem::initValue()
+{
+    _value = _chip->readBoolean(_addres, _bit);
+}

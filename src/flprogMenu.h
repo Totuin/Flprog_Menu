@@ -43,6 +43,7 @@ public:
 
     void reset();
     void resetController();
+    void saveBuffer();
     void setValue(String value);
 
     bool currentMenuIsGroup();

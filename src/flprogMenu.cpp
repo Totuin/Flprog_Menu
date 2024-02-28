@@ -78,6 +78,12 @@ void FLProgMenu::menuItemUp()
     {
         return;
     }
+    if (_currentMenuItem != 0)
+    {
+        _currentMenuItem->resetInput();
+        _currentMenuItem->saveBuffer();
+        resetController();
+    }
     FLProgAbstractMenuItem *parent = getCurrentMenuItemParent();
     if (parent != 0)
     {
@@ -91,6 +97,12 @@ void FLProgMenu::menuItemDown()
     if (_itemsCounts == 0)
     {
         return;
+    }
+    if (_currentMenuItem != 0)
+    {
+        _currentMenuItem->resetInput();
+        _currentMenuItem->saveBuffer();
+        resetController();
     }
     FLProgAbstractMenuItem *parent = getCurrentMenuItemParent();
     if (parent != 0)
@@ -120,10 +132,7 @@ int16_t FLProgMenu::indexForCurrentItem()
 
 FLProgAbstractMenuItem *FLProgMenu::next()
 {
-    if (_currentMenuItem != 0)
-    {
-        _currentMenuItem->resetInput();
-    }
+
     int16_t index = indexForCurrentItem();
     if (index < 0)
     {
@@ -144,10 +153,7 @@ FLProgAbstractMenuItem *FLProgMenu::next()
 }
 FLProgAbstractMenuItem *FLProgMenu::previous()
 {
-    if (_currentMenuItem != 0)
-    {
-        _currentMenuItem->resetInput();
-    }
+
     int16_t index = indexForCurrentItem();
     if (index < 0)
     {
@@ -250,10 +256,14 @@ void FLProgMenu::resetController()
 void FLProgMenu::reset()
 {
     resetController();
-    FLProgAbstractMenuItem *current = getCurrentMenuIntem();
-    if (current == 0)
+    if (_itemsCounts <= 0)
     {
         return;
+    }
+    if (_currentMenuItem != 0)
+    {
+        _currentMenuItem->resetInput();
+        _currentMenuItem->saveBuffer();
     }
     _currentMenuItem = _items[0];
 }
@@ -270,11 +280,15 @@ void FLProgMenu::pressSymbolButton(char value)
 
 void FLProgMenu::menuGroupEnter()
 {
+
     FLProgAbstractMenuItem *current = getCurrentMenuIntem();
     if (current == 0)
     {
         return;
     }
+    resetController();
+    _currentMenuItem->resetInput();
+    _currentMenuItem->saveBuffer();
     if (!(current->isGroup()))
     {
         return;
@@ -291,6 +305,12 @@ void FLProgMenu::menuGroupExit()
     if (_itemsCounts <= 0)
     {
         return;
+    }
+    if (_currentMenuItem != 0)
+    {
+        resetController();
+        _currentMenuItem->resetInput();
+        _currentMenuItem->saveBuffer();
     }
     FLProgAbstractMenuItem *parent = getCurrentMenuItemParent();
     if (parent == 0)
@@ -360,6 +380,12 @@ String FLProgMenu::nameParentMenu()
 
 void FLProgMenu::setCurrentItem(FLProgAbstractMenuItem *item)
 {
+    resetController();
+    if (_currentMenuItem != 0)
+    {
+        _currentMenuItem->resetInput();
+        _currentMenuItem->saveBuffer();
+    }
     _currentMenuItem = item;
 }
 
@@ -420,4 +446,13 @@ void FLProgMenu::setDoubleAccelerationPeriog(uint32_t time)
         return;
     }
     _valueController->setDoubleAccelerationPeriog(time);
+}
+
+void FLProgMenu::saveBuffer()
+{
+    if (_currentMenuItem != 0)
+    {
+        _currentMenuItem->resetInput();
+        _currentMenuItem->saveBuffer();
+    }
 }

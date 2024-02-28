@@ -71,13 +71,13 @@ void FLProgLongMenuItem::setLongMaxValue(int32_t value)
     _maxValue = value;
     _hasMax = true;
 }
+
 void FLProgLongMenuItem::setLongMinValue(int32_t value)
 {
     _minValue = value;
     if (!(_minValue < 0))
     {
         setLongValue(_minValue);
-        return;
     }
     _hasMin = true;
 }

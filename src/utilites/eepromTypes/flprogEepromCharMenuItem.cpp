@@ -12,3 +12,18 @@ void FLProgEepromCharMenuItem::saveBuffer()
 {
     _chip->saveByte(_addres, ((uint8_t)_value));
 }
+
+void FLProgEepromCharMenuItem::setCharValue(char value)
+{
+    FLProgCharMenuItem::setCharValue(value);
+    if (_isBuffered)
+    {
+        return;
+    }
+    saveBuffer();
+}
+
+void FLProgEepromCharMenuItem::initValue()
+{
+    _value = (char)(_chip->readByte(_addres));
+}

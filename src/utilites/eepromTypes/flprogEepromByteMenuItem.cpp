@@ -12,3 +12,24 @@ void FLProgEepromByteMenuItem::saveBuffer()
 {
     _chip->saveByte(_addres, _value);
 }
+
+void FLProgEepromByteMenuItem::setByteValue(uint8_t value)
+{
+    FLProgByteMenuItem::setByteValue(value);
+    if (_isBuffered)
+    {
+        return;
+    }
+    saveBuffer();
+}
+
+void FLProgEepromByteMenuItem::initValue()
+{
+    _value = _chip->readByte(_addres);
+}
+
+void FLProgEepromByteMenuItem::setByteMinValue(uint8_t value)
+{
+    _minValue = value;
+    _hasMin = true;
+}

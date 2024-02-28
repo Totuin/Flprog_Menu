@@ -94,7 +94,6 @@ void FLProgFloatMenuItem::setFloatMinValue(float value)
     if (!(_minValue < 0))
     {
         setFloatValue(_minValue);
-        return;
     }
     _hasMin = true;
 }

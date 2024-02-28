@@ -60,13 +60,13 @@ void FLProgIntegerMenuItem::setIntegeMaxValue(int16_t value)
     _maxValue = value;
     _hasMax = true;
 }
+
 void FLProgIntegerMenuItem::setIntegeMinValue(int16_t value)
 {
     _minValue = value;
     if (!(_minValue < 0))
     {
         setIntegerValue(_minValue);
-        return;
     }
     _hasMin = true;
 }

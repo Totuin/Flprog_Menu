@@ -10,6 +10,10 @@ public:
     FLProgEepromUnsignedLongMenuItem(String name, FLProgAbstractEEPROM *chip, uint16_t addres, bool isBuffered = true, uint8_t aditionalsStringsCount = 0);
 
     virtual void saveBuffer();
+    virtual void setUnsignedLongValue(uint32_t value);
+    void initValue();
+
+    virtual void setUnsignedLongMinValue(uint32_t value);
 
 protected:
     bool _isBuffered;

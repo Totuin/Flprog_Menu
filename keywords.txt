@@ -40,6 +40,7 @@ firstItem	KEYWORD2
 floatValue	KEYWORD2
 getCurrentMenuIntem	KEYWORD2
 getCurrentMenuItemParent	KEYWORD2
+initValue	KEYWORD2
 integerValue	KEYWORD2
 isActiveMainMenu	KEYWORD2
 isBoolean	KEYWORD2
