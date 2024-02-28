@@ -12,6 +12,13 @@ FLProgBooleanMenuItem	KEYWORD1
 FLProgByteMenuItem	KEYWORD1
 FLProgCharMenuItem	KEYWORD1
 FLProgDoubleAccelerationValueController	KEYWORD1
+FLProgEepromBooleanMenuItem	KEYWORD1
+FLProgEepromByteMenuItem	KEYWORD1
+FLProgEepromCharMenuItem	KEYWORD1
+FLProgEepromFloatMenuItem	KEYWORD1
+FLProgEepromIntegerMenuItem	KEYWORD1
+FLProgEepromLongMenuItem	KEYWORD1
+FLProgEepromUnsignedLongMenuItem	KEYWORD1
 FLProgFloatMenuItem	KEYWORD1
 FLProgGroupMenuItem	KEYWORD1
 FLProgIntegerMenuItem	KEYWORD1
@@ -60,6 +67,7 @@ pressSymbolButton	KEYWORD2
 reset	KEYWORD2
 resetController	KEYWORD2
 resetInput	KEYWORD2
+saveBuffer	KEYWORD2
 setAccelerationPeriog	KEYWORD2
 setAccelerationTime	KEYWORD2
 setAditionalString	KEYWORD2

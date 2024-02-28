@@ -6,6 +6,7 @@
 class FLProgCharMenuItem : public FLProgBasicMenuItem
 {
 public:
+    FLProgCharMenuItem(){};
     FLProgCharMenuItem(String name, uint8_t aditionalsStringsCount = 0);
 
     virtual char charValue() { return _value; };
@@ -24,5 +25,6 @@ public:
     virtual bool isChar() { return true; };
 
 protected:
-    char _value = 0;
+    uint8_t step() { return (uint8_t)_step; };
+    char _value = (char)0;
 };

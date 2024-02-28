@@ -6,6 +6,7 @@
 class FLProgFloatMenuItem : public FLProgBasicMenuItem
 {
 public:
+    FLProgFloatMenuItem(){};
     FLProgFloatMenuItem(String name, uint8_t aditionalsStringsCount = 0);
 
     virtual float floatValue() { return _value; };

@@ -6,6 +6,7 @@
 class FLProgIntegerMenuItem : public FLProgBasicMenuItem
 {
 public:
+    FLProgIntegerMenuItem(){};
     FLProgIntegerMenuItem(String name, uint8_t aditionalsStringsCount = 0) { initItem(name, aditionalsStringsCount); };
 
     virtual int16_t integerValue() { return _value; };
@@ -27,6 +28,7 @@ public:
     virtual bool isInteger() { return true; };
 
 protected:
+    int16_t step() { return (int16_t)_step; };
     int16_t _value = 0;
     int16_t _maxValue;
     int16_t _minValue;

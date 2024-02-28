@@ -76,7 +76,7 @@ void FLProgLongMenuItem::setLongMinValue(int32_t value)
     _minValue = value;
     if (!(_minValue < 0))
     {
-        _value = _minValue;
+        setLongValue(_minValue);
         return;
     }
     _hasMin = true;
@@ -86,30 +86,30 @@ void FLProgLongMenuItem::valueUp()
 {
     if (_hasMax)
     {
-        if (_value > (_maxValue - ((int32_t)_step)))
+        if (_value > (_maxValue - step()))
             return;
     }
-    if (_value > (2147483647 - ((int32_t)_step)))
+    if (_value > (2147483647 - step()))
     {
         return;
     }
-    _value = _value + ((int32_t)_step);
+    setLongValue(_value + step());
 }
 
 void FLProgLongMenuItem::valueDown()
 {
     if (_hasMin)
     {
-        if (_value < (_minValue + ((int32_t)_step)))
+        if (_value < (_minValue + step()))
         {
             return;
         }
     }
-    if (_value < (-2147483647 + ((int32_t)_step)))
+    if (_value < (-2147483647 + step()))
     {
         return;
     }
-    _value = _value - ((int32_t)_step);
+    setLongValue(_value - step());
 }
 
 void FLProgLongMenuItem::pressSymbolButton(char value)
@@ -152,9 +152,9 @@ void FLProgLongMenuItem::pressClearButton()
     {
         if (!(_minValue < 0))
         {
-            _value = _minValue;
+            setLongValue(_minValue);
             return;
         }
     }
-    _value = 0;
+    setLongValue(0);
 }

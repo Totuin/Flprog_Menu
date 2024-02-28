@@ -2,7 +2,7 @@
 
 void FLProgBooleanMenuItem::setValue(String value)
 {
-    _value = flprog::stringToBool(value);
+    setBooleanValue(flprog::stringToBool(value));
 }
 
 String FLProgBooleanMenuItem::valueString()
@@ -16,23 +16,23 @@ String FLProgBooleanMenuItem::valueString()
 
 void FLProgBooleanMenuItem::valueUp()
 {
-    _value = !_value;
+    setBooleanValue(!_value);
 }
 void FLProgBooleanMenuItem::valueDown()
 {
-    _value = !_value;
+    setBooleanValue(!_value);
 }
 
 void FLProgBooleanMenuItem::pressSymbolButton(char value)
 {
     if (value == '0')
     {
-        _value = false;
+        setBooleanValue(false);
         return;
     }
     if ((flprog::isNumberChar(value)) || (flprog::isHexNumberChar(value)))
     {
-        _value = true;
+        setBooleanValue(true);
         return;
     }
 }

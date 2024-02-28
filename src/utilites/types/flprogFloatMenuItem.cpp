@@ -93,7 +93,7 @@ void FLProgFloatMenuItem::setFloatMinValue(float value)
     _minValue = value;
     if (!(_minValue < 0))
     {
-        _value = _minValue;
+        setFloatValue(_minValue);
         return;
     }
     _hasMin = true;
@@ -104,26 +104,26 @@ void FLProgFloatMenuItem::valueUp()
     _zerroCount = 0;
     if (_hasMax)
     {
-        if ((_value + _step) > _maxValue)
+        if (_value > (_maxValue - _step))
         {
             return;
         }
     }
     resetInput();
-    _value = _value + _step;
+    setFloatValue(_value + _step);
 }
 
 void FLProgFloatMenuItem::valueDown()
 {
     if (_hasMin)
     {
-        if ((_value - _step) < _minValue)
+        if (_value < (_minValue + _step))
         {
             return;
         }
     }
     resetInput();
-    _value = _value - _step;
+    setFloatValue(_value - _step);
 }
 
 void FLProgFloatMenuItem::pressBacspaceButton()
@@ -205,9 +205,9 @@ void FLProgFloatMenuItem::pressClearButton()
     {
         if (!(_minValue < 0))
         {
-            _value = _minValue;
+            setFloatValue(_minValue);
             return;
         }
     }
-    _value = 0;
+    setFloatValue(0);
 }

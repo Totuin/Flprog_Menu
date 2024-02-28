@@ -65,7 +65,7 @@ void FLProgIntegerMenuItem::setIntegeMinValue(int16_t value)
     _minValue = value;
     if (!(_minValue < 0))
     {
-        _value = _minValue;
+        setIntegerValue(_minValue);
         return;
     }
     _hasMin = true;
@@ -94,36 +94,34 @@ void FLProgIntegerMenuItem::setIntegerValue(int16_t value)
 
 void FLProgIntegerMenuItem::valueUp()
 {
-    int32_t temp = _value + ((int16_t)_step);
     if (_hasMax)
     {
-        if (temp > _maxValue)
+        if (_value > (_maxValue - step()))
         {
             return;
         }
     }
-    if (temp > 32767)
+    if (_value > (32767 - step()))
     {
         return;
     }
-    _value = (int16_t)temp;
+    setIntegerValue(_value + step());
 }
 
 void FLProgIntegerMenuItem::valueDown()
 {
-    int32_t temp = _value - ((int16_t)_step);
     if (_hasMin)
     {
-        if (temp < _minValue)
+        if (_value < (_minValue + step()))
         {
             return;
         }
     }
-    if (temp < -32767)
+    if (_value < (-32767 + step()))
     {
         return;
     }
-    _value = (int16_t)temp;
+    setIntegerValue(_value - step());
 }
 
 void FLProgIntegerMenuItem::pressSymbolButton(char value)
@@ -166,9 +164,9 @@ void FLProgIntegerMenuItem::pressClearButton()
     {
         if (!(_minValue < 0))
         {
-            _value = _minValue;
+            setIntegerValue(_minValue);
             return;
         }
     }
-    _value = 0;
+    setIntegerValue(0);
 }

@@ -49,7 +49,7 @@ void FLProgByteMenuItem::setByteMaxValue(uint8_t value)
 void FLProgByteMenuItem::setByteMinValue(uint8_t value)
 {
     _minValue = value;
-    _value = value;
+    setByteValue(value);
     _hasMin = true;
 }
 
@@ -74,35 +74,33 @@ void FLProgByteMenuItem::setByteValue(uint8_t value)
 
 void FLProgByteMenuItem::valueUp()
 {
-    int16_t temp = _value + ((uint8_t)_step);
     if (_hasMax)
     {
-        if (temp > _maxValue)
+        if (_value > (_maxValue - step()))
         {
             return;
         }
     }
-    if (temp > 255)
+    if (_value > (255 - step()))
     {
         return;
     }
-    _value = (uint8_t)temp;
+    setByteValue(_value + step());
 }
 void FLProgByteMenuItem::valueDown()
 {
-    int16_t temp = _value - ((uint8_t)_step);
     if (_hasMin)
     {
-        if (temp < _minValue)
+        if (_value < (_minValue + step()))
         {
             return;
         }
     }
-    if (temp < 0)
+    if (_value < (step()))
     {
         return;
     }
-    _value = (uint8_t)temp;
+    setByteValue(_value - step());
 }
 
 void FLProgByteMenuItem::pressSymbolButton(char value)
@@ -139,8 +137,8 @@ void FLProgByteMenuItem::pressClearButton()
 {
     if (_hasMin)
     {
-        _value = _minValue;
+        setByteValue(_minValue);
         return;
     }
-    _value = 0;
+    setByteValue(0);
 }

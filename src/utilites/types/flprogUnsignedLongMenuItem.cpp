@@ -96,7 +96,7 @@ void FLProgUnsignedLongMenuItem::setUnsignedLongMaxValue(uint32_t value)
 void FLProgUnsignedLongMenuItem::setUnsignedLongMinValue(uint32_t value)
 {
     _minValue = value;
-    _value = value;
+    setUnsignedLongMaxValue(value);
     _hasMin = true;
 }
 
@@ -104,40 +104,40 @@ void FLProgUnsignedLongMenuItem::valueUp()
 {
     if (_hasMax)
     {
-        if (_value > (_maxValue - ((uint32_t)_step)))
+        if (_value > (_maxValue - step()))
         {
             return;
         }
     }
-    if (_value > (4294967295 - ((uint32_t)_step)))
+    if (_value > (4294967295 - step()))
     {
         return;
     }
-    _value = _value + ((uint32_t)_step);
+    setUnsignedLongMaxValue(_value + step());
 }
 
 void FLProgUnsignedLongMenuItem::valueDown()
 {
     if (_hasMin)
     {
-        if (_value < (_minValue + ((uint32_t)_step)))
+        if (_value < (_minValue + step()))
         {
             return;
         }
     }
-    if (_value == 0)
+    if (_value < (step()))
     {
         return;
     }
-    _value = _value - ((uint32_t)_step);
+    setUnsignedLongMaxValue(_value - step());
 }
 
 void FLProgUnsignedLongMenuItem::pressClearButton()
 {
     if (_hasMin)
     {
-        _value = _minValue;
+        setUnsignedLongMaxValue(_minValue);
         return;
     }
-    _value = 0;
+    setUnsignedLongMaxValue(0);
 }

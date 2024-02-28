@@ -1,15 +1,22 @@
-#include "flprogMenu.h"
+#include "flprogEepromMenu.h"
+#include "flprogExternalEEPROM.h"
+
+FLProgExternalEEPROM eeprom(0, 0x50, 30, 3);
 
 FLProgBooleanMenuItem boolItem("Bool");
+FLProgEepromBooleanMenuItem eepromBoolItem("Bool-1", &eeprom, 1, 1);
+
 FLProgByteMenuItem byteItem("Byte");
+FLProgEepromByteMenuItem eepromByteItem("Byte_1", &eeprom, 2);
+
 FLProgIntegerMenuItem integerItem("Integer");
 FLProgLongMenuItem longItem("Long");
 FLProgUnsignedLongMenuItem unsignedLongItem("UnsignedLong");
 FLProgFloatMenuItem floatItem("Float");
 FLProgCharMenuItem charItem("Char");
 
-FLProgGroupMenuItem group1("Group", 6);
-FLProgMenu menu("mainMenu", 2);
+FLProgGroupMenuItem group1("Group", 2);
+FLProgMenu menu("mainMenu", 4);
 
 void setup()
 {
@@ -23,6 +30,8 @@ void setup()
 
     menu.setItem(0, &group1);
     menu.setItem(1, &boolItem);
+    menu.setItem(2, &eepromBoolItem);
+    menu.setItem(3, &eepromByteItem);
 
     group1.setItem(0, &byteItem);
     group1.setItem(1, &integerItem);
@@ -30,8 +39,11 @@ void setup()
     group1.setItem(3, &unsignedLongItem);
     group1.setItem(4, &floatItem);
     group1.setItem(5, &charItem);
+
+    eeprom.begin();
 }
 
 void loop()
 {
+    eeprom.pool();
 }

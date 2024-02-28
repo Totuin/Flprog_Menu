@@ -68,6 +68,8 @@ public:
     virtual void resetInput(){};
     virtual void pressClearButton(){};
 
+    virtual void saveBuffer(){};
+
     virtual FLProgAbstractMenuItem *getCurrentMenuItemParent(FLProgAbstractMenuItem *current);
     virtual FLProgAbstractMenuItem *menuItemUp(FLProgAbstractMenuItem *current, bool isRingControl);
     virtual FLProgAbstractMenuItem *menuItemDown(FLProgAbstractMenuItem *current, bool isRingControl);

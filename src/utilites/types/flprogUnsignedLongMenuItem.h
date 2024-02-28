@@ -6,6 +6,7 @@
 class FLProgUnsignedLongMenuItem : public FLProgBasicMenuItem
 {
 public:
+    FLProgUnsignedLongMenuItem(){};
     FLProgUnsignedLongMenuItem(String name, uint8_t aditionalsStringsCount = 0) { initItem(name, aditionalsStringsCount); };
 
     virtual uint32_t unsignedLongValue() { return _value; };
@@ -27,6 +28,7 @@ public:
     virtual bool isUnsignedLong() { return true; };
 
 protected:
+    uint32_t step() { return (uint32_t)_step; };
     uint32_t _value = 0;
     uint32_t _maxValue;
     uint32_t _minValue;

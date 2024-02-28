@@ -7,6 +7,7 @@ class FLProgByteMenuItem : public FLProgBasicMenuItem
 {
 public:
     FLProgByteMenuItem(String name, uint8_t aditionalsStringsCount = 0) { initItem(name, aditionalsStringsCount); };
+    FLProgByteMenuItem(){};
 
     virtual String valueString();
     virtual void setValue(String value);
@@ -22,11 +23,12 @@ public:
 
     virtual void pressSymbolButton(char value);
     virtual void pressBacspaceButton();
-    virtual void pressClearButton() ;
+    virtual void pressClearButton();
 
     virtual bool isByte() { return true; };
 
 protected:
+    uint8_t step() { return (uint8_t)_step; };
     uint8_t _value = 0;
     uint8_t _maxValue;
     uint8_t _minValue;

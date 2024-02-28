@@ -34,7 +34,7 @@ void FLProgCharMenuItem::setValue(String value)
     {
         return;
     }
-    _value = (char)((uint8_t)temp);
+    setCharValue((char)((uint8_t)temp));
 }
 
 String FLProgCharMenuItem::valueString()
@@ -58,28 +58,27 @@ String FLProgCharMenuItem::valueString()
 
 void FLProgCharMenuItem::valueUp()
 {
-
-    if (((uint8_t)_value) > (255 - ((uint8_t)_step)))
+    if (((uint8_t)_value) > (255 - step()))
     {
         return;
     }
-    _value = (char)(((uint8_t)_value) + ((uint8_t)_step));
+    setCharValue((char)(((uint8_t)_value) + step()));
 }
 
 void FLProgCharMenuItem::valueDown()
 {
-    if (((uint8_t)_value) < ((uint8_t)_step))
+    if (((uint8_t)_value) < step())
     {
         return;
     }
-    _value = (char)(((uint8_t)_value) - ((uint8_t)_step));
+    setCharValue((char)(((uint8_t)_value) - step()));
 }
 
 void FLProgCharMenuItem::pressSymbolButton(char value)
 {
     if (_convertType == FLPROG_MENU_SYMBOL_CONVERT_TYPE)
     {
-        _value = value;
+        setCharValue(value);
         return;
     }
     if (flprog::isHexNumberChar(value))

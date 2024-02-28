@@ -1,0 +1,11 @@
+#pragma once
+#include <Arduino.h>
+#include "flprogUtilites.h"
+#include "flprogMenu.h"
+#include "utilites/eepromTypes/flprogEepromBooleanMenuItem.h"
+#include "utilites/eepromTypes/flprogEepromByteMenuItem.h"
+#include "utilites/eepromTypes/flprogEepromCharMenuItem.h"
+#include "utilites/eepromTypes/flprogEepromFloatMenuItem.h"
+#include "utilites/eepromTypes/flprogEepromIntegerMenuItem.h"
+#include "utilites/eepromTypes/flprogEepromLongMenuItem.h"
+#include "utilites/eepromTypes/flprogEepromUnsignedLongMenuItem.h"

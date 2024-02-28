@@ -6,6 +6,7 @@
 class FLProgLongMenuItem : public FLProgBasicMenuItem
 {
 public:
+    FLProgLongMenuItem(){};
     FLProgLongMenuItem(String name, uint8_t aditionalsStringsCount = 0) { initItem(name, aditionalsStringsCount); };
 
     virtual String valueString();
@@ -27,6 +28,7 @@ public:
     virtual bool isLong() { return true; };
 
 protected:
+    int32_t step() { return (int32_t)_step; };
     int32_t _value = 0;
     int32_t _maxValue;
     int32_t _minValue;
