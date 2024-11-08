@@ -25,7 +25,7 @@ public:
     virtual int16_t integerValue() { return 0; };
     virtual int32_t longValue() { return 0; };
     virtual uint32_t unsignedLongValue() { return 0; };
-    virtual float floatValue() { return 0; };
+    virtual double floatValue() { return 0; };
     virtual char charValue() { return (char)0; };
 
     virtual void setValue(String value) { (void)value; };
@@ -35,22 +35,22 @@ public:
     virtual void setIntegerValue(int16_t value) { (void)value; };
     virtual void setLongValue(int32_t value) { (void)value; };
     virtual void setUnsignedLongValue(uint32_t value) { (void)value; };
-    virtual void setFloatValue(float value) { (void)value; };
+    virtual void setFloatValue(double value) { (void)value; };
     virtual void setCharValue(char value) { (void)value; };
 
     virtual void setByteMaxValue(uint8_t value) { (void)value; };
     virtual void setIntegeMaxValue(int16_t value) { (void)value; };
     virtual void setLongMaxValue(int32_t value) { (void)value; };
     virtual void setUnsignedLongMaxValue(uint32_t value) { (void)value; };
-    virtual void setFloatMaxValue(float value) { (void)value; };
+    virtual void setFloatMaxValue(double value) { (void)value; };
 
     virtual void setByteMinValue(uint8_t value) { (void)value; };
     virtual void setIntegeMinValue(int16_t value) { (void)value; };
     virtual void setLongMinValue(int32_t value) { (void)value; };
     virtual void setUnsignedLongMinValue(uint32_t value) { (void)value; };
-    virtual void setFloatMinValue(float value) { (void)value; };
+    virtual void setFloatMinValue(double value) { (void)value; };
 
-    virtual void setStep(float value) { (void)value; };
+    virtual void setStep(double value) { (void)value; };
 
     virtual bool isBoolean() { return false; };
     virtual bool isByte() { return false; };

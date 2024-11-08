@@ -11,7 +11,7 @@ void FLProgFloatMenuItem::setValue(String value)
     setFloatValue(value.toFloat());
 }
 
-void FLProgFloatMenuItem::setFloatValue(float value)
+void FLProgFloatMenuItem::setFloatValue(double value)
 {
     if (_hasMin)
     {
@@ -83,12 +83,12 @@ String FLProgFloatMenuItem::removeLastZeroSymbol(String value)
     return value;
 }
 
-void FLProgFloatMenuItem::setFloatMaxValue(float value)
+void FLProgFloatMenuItem::setFloatMaxValue(double value)
 {
     _maxValue = value;
     _hasMax = true;
 }
-void FLProgFloatMenuItem::setFloatMinValue(float value)
+void FLProgFloatMenuItem::setFloatMinValue(double value)
 {
     _minValue = value;
     if (!(_minValue < 0))

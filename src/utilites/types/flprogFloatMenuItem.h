@@ -9,14 +9,14 @@ public:
     FLProgFloatMenuItem(){};
     FLProgFloatMenuItem(String name, uint8_t aditionalsStringsCount = 0);
 
-    virtual float floatValue() { return _value; };
+    virtual double floatValue() { return _value; };
 
     virtual String valueString();
     virtual void setValue(String value);
 
-    virtual void setFloatValue(float value);
-    virtual void setFloatMaxValue(float value);
-    virtual void setFloatMinValue(float value);
+    virtual void setFloatValue(double value);
+    virtual void setFloatMaxValue(double value);
+    virtual void setFloatMinValue(double value);
 
     virtual void valueUp();
     virtual void valueDown();
@@ -30,9 +30,9 @@ public:
 
 protected:
     String removeLastZeroSymbol(String value);
-    float _value = 0;
-    float _maxValue;
-    float _minValue;
+    double _value = 0;
+    double _maxValue;
+    double _minValue;
     bool _hasMax = false;
     bool _hasMin = false;
     uint8_t _zerroCount = 0;
